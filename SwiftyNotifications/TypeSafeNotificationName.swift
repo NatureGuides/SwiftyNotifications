@@ -63,30 +63,6 @@ public extension Notification.TypeSafeName where T: Sendable
     }
 }
 
-public extension Notification.TypeSafeName where T: ExpressibleByNilLiteral
-{
-    /// Adds an entry to the default notification center's dispatch table for this notification name, with a block that will run on the main thread.
-    @discardableResult func addObserver(using block: @escaping Block) -> any NSObjectProtocol
-    {
-        NotificationCenter.default.addObserver(forName: self.underlyingName, object: nil, queue: .main) { notification in
-            if let object = notification.object, object is NSNull == false
-            {
-                block(notification, object as! T)
-            }
-            else
-            {
-                block(notification, nil)
-            }
-        }
-    }
-    
-    /// Creates a notification with this name and posts it to the default notification center on the main dispatch queue.
-    func post()
-    {
-        self.post(object: nil)
-    }
-}
-
 public extension Notification.TypeSafeName where T: ExpressibleByNilLiteral & Sendable
 {
     /// Adds an entry to the default notification center's dispatch table for this notification name, with a block that will run on the main actor.
@@ -107,6 +83,12 @@ public extension Notification.TypeSafeName where T: ExpressibleByNilLiteral & Se
                 }
             }
         }
+    }
+    
+    /// Creates a notification with this name and posts it to the default notification center on the main dispatch queue.
+    func post()
+    {
+        self.post(object: nil)
     }
 }
 
