@@ -14,7 +14,7 @@ public extension Notification
 public extension Notification.Name
 {
     /// Adds an entry to the default notification center's dispatch table for this notification name, with a block that will run on the main thread.
-    @discardableResult func addObserver(using block: @escaping Notification.Block) -> AnyObject
+    @discardableResult func addObserver(using block: @escaping Notification.Block) -> any NSObjectProtocol
     {
         NotificationCenter.default.addObserver(forName: self, object: nil, queue: .main) { notification in
             block(notification)
@@ -22,7 +22,7 @@ public extension Notification.Name
     }
     
     /// Adds an entry to the default notification center's dispatch table for this notification name, with a block that will run on the main actor.
-    @discardableResult func addAsyncObserver(using block: @escaping Notification.AsyncBlock) -> AnyObject
+    @discardableResult func addAsyncObserver(using block: @escaping Notification.AsyncBlock) -> any NSObjectProtocol
     {
         NotificationCenter.default.addObserver(forName: self, object: nil, queue: .main) { notification in
             Task { @MainActor in
